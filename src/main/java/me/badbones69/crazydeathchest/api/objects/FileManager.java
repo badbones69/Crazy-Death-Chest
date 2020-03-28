@@ -289,8 +289,9 @@ public class FileManager {
     public enum Files {
         
         //ENUM_NAME("FileName.yml", "FilePath.yml"),
-        CONFIG("Config.yml", "Config.yml"),
-        MESSAGES("Messages.yml", "Messages.yml");
+        CONFIG("config.yml", "config.yml"),
+        MESSAGES("messages.yml", "messages.yml"),
+        DATA("data.yml", "data.yml");
         
         private String fileName;
         private String fileLocation;
