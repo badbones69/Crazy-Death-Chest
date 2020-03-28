@@ -3,5 +3,6 @@ author: BadBones69
 main: me.badbones69.crazydeathchest.Main
 website: https://www.spigotmc.org/resources/authors/9719/
 version: ${version}${build.number}
+softdepend: [HolographicDisplays, Holograms]
 api-version: 1.13
 description: Drop a chest on the ground where the player died.

@@ -1,0 +1,4 @@
+Messages:
+  No-Permission: '&cYou do not have permission to use that command!'
+  Reload: '&7You have just reloaded the config.yml.'
+  Players-Only: '&cOnly players can use this command.'

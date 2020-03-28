@@ -5,26 +5,14 @@ import me.badbones69.crazydeathchest.api.objects.FileManager.Files;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 public enum Messages {
     
-    RELOAD("Config-Reload", "&7You have just reloaded the Config.yml"),
-    INVENTORY_FULL("Inventory-Full", "&cYour inventory is to full. Please open up some space to buy that."),
-    PLAYERS_ONLY("Reload", "&cOnly players can use this command."),
-    NO_PERMISSION("No-Permission", "&cYou do not have permission to use that command!"),
-    NO_PERMISSION_TO_VOUCHER("No-Permission-To-Voucher", "&cYou do not have permission to use that voucher."),
-    HELP("Help",
-    Arrays.asList(
-    "&8- &6/Voucher Help &3Lists all the commands for vouchers.",
-    "&8- &6/Voucher Types &3Lists all types of vouchers and codes.",
-    "&8- &6/Voucher Redeem <Code> &3Allows player to redeem a voucher code.",
-    "&8- &6/Voucher Give <Type> [Amount] [Player] [Arguments] &3Gives a player a voucher.",
-    "&8- &6/Voucher GiveAll <Type> [Amount] [Arguments] &3Gives all players a voucher.",
-    "&8- &6/Voucher Open [Page] &3Opens a GUI so you can get vouchers easy.",
-    "&8- &6/Voucher Reload &3Reloaded the configuration files."));
+    RELOAD("Reload", "&7You have just reloaded the Config.yml"),
+    PLAYERS_ONLY("Players-Only", "&cOnly players can use this command."),
+    NO_PERMISSION("No-Permission", "&cYou do not have permission to use that command!");
     
     private String path;
     private String defaultMessage;
