@@ -1,2 +1,24 @@
 Settings:
+  #The prefix for the messages.
   Prefix: '&7[&cCrazy Death Chest&7]'
+  Chest-Settings:
+    #The type of block that the chest will be.
+    Block: 'CHEST'
+    Permissions:
+      #Toggle if the permission 'crazydeathchest.bypass' will stop chests from spawning for players with the permission. PS: this includes OPs as they have all permissions.
+      Bypass-Permission: true
+      #Toggle if a player needs the permission 'crazydeathchest.claim' to claim a death chest.
+      Claim-Permission: true
+    #When claiming a chest it will either drop the items onto the ground or open a chest with all the items inside.
+    Drop-Items: true
+    #The name of the inventory that is opened if not dropping items on the ground. Do NOT leave blank.
+    Drop-Inventory-Name: '&c&lDeath Chest'
+    #If opening from a chest and a player does not claim all the item the rest will be either dropped to the floor or deleted.
+    Drop-Unclaimed-Items: true
+    Fireworks:
+      #When claiming a chest it will spawn a firework where the chest was.
+      Claim-Firework: true
+      #The colors of the firework. Colors: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Color.html
+      Colors:
+        - 'Black'
+        - 'Purple'

@@ -1,12 +1,15 @@
 package me.badbones69.crazydeathchest.api;
 
+import me.badbones69.crazydeathchest.Methods;
 import me.badbones69.crazydeathchest.api.interfaces.HologramController;
 import me.badbones69.crazydeathchest.api.objects.DeathChestLocation;
 import me.badbones69.crazydeathchest.api.objects.FileManager.Files;
+import me.badbones69.crazydeathchest.api.objects.ItemBuilder;
 import me.badbones69.crazydeathchest.hooks.HologramsSupport;
 import me.badbones69.crazydeathchest.hooks.HolographicSupport;
 import me.badbones69.crazydeathchest.hooks.Support;
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -27,6 +30,14 @@ public class DeathChest {
      */
     private HologramController hologramController;
     private List<DeathChestLocation> chestLocations = new ArrayList<>();
+    private ItemBuilder chestType;
+    private boolean useChestBypass;
+    private boolean useClaimPermission;
+    private boolean dropItems;
+    private String dropInventoryName;
+    private boolean dropUnclaimedItems;
+    private boolean claimFirework;
+    private List<Color> fireworkColors = new ArrayList<>();
     
     public static DeathChest getInstance() {
         return instance;
@@ -35,6 +46,7 @@ public class DeathChest {
     public void load() {
         Support.updatePluginStates();
         chestLocations.clear();
+        fireworkColors.clear();
         if (Support.HOLOGRAPHIC_DISPLAYS.isPluginLoaded()) {
             hologramController = new HolographicSupport();
         } else if (Support.HOLOGRAMS.isPluginLoaded()) {
@@ -56,6 +68,18 @@ public class DeathChest {
             getBlockFromString(data.getString(path + "Block")),
             droppedItems));
         }
+        FileConfiguration config = Files.CONFIG.getFile();
+        String settings = "Settings.";
+        chestType = new ItemBuilder().setMaterial(config.getString(settings + "Chest-Settings.Block"));
+        useChestBypass = config.getBoolean(settings + "Chest-Settings.Permissions.Bypass-Permission");
+        useClaimPermission = config.getBoolean(settings + "Chest-Settings.Permissions.Claim-Permission");
+        dropItems = config.getBoolean(settings + "Chest-Settings.Drop-Items");
+        dropInventoryName = Methods.color(config.getString(settings + "Chest-Settings.Drop-Inventory-Name"));
+        dropUnclaimedItems = config.getBoolean(settings + "Chest-Settings.Drop-Unclaimed-Items");
+        claimFirework = config.getBoolean(settings + "Chest-Settings.Fireworks.Claim-Firework");
+        for (String color : config.getStringList(settings + "Chest-Settings.Fireworks.Colors")) {
+            fireworkColors.add(Methods.getColor(color));
+        }
     }
     
     public void saveDeathChestLocations() {
@@ -76,6 +100,38 @@ public class DeathChest {
     
     public Plugin getPlugin() {
         return plugin;
+    }
+    
+    public ItemBuilder getChestType() {
+        return chestType;
+    }
+    
+    public boolean useChestBypass() {
+        return useChestBypass;
+    }
+    
+    public boolean useClaimPermission() {
+        return useClaimPermission;
+    }
+    
+    public boolean isDropItems() {
+        return dropItems;
+    }
+    
+    public String getDropInventoryName() {
+        return dropInventoryName;
+    }
+    
+    public boolean isDropUnclaimedItems() {
+        return dropUnclaimedItems;
+    }
+    
+    public boolean isClaimFirework() {
+        return claimFirework;
+    }
+    
+    public List<Color> getFireworkColors() {
+        return fireworkColors;
     }
     
     public List<DeathChestLocation> getDeathChestLocations() {
