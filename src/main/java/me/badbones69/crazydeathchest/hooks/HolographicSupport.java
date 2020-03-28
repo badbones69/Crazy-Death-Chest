@@ -6,6 +6,7 @@ import me.badbones69.crazydeathchest.Methods;
 import me.badbones69.crazydeathchest.api.DeathChest;
 import me.badbones69.crazydeathchest.api.interfaces.HologramController;
 import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,10 +17,18 @@ public class HolographicSupport implements HologramController {
     private DeathChest deathChest = DeathChest.getInstance();
     
     public void createHologram(Block block, List<String> message) {
-        double hight = .5;
+        createHologram(block, message, null);
+    }
+    
+    public void createHologram(Block block, List<String> message, ItemStack itemStack) {
+        double hight = deathChest.getHologramHeight();
         Hologram hologram = HologramsAPI.createHologram(deathChest.getPlugin(), block.getLocation().add(.5, hight, .5));
         for (String line : message) {
-            hologram.appendTextLine(Methods.color(line));
+            if (line.toLowerCase().contains("%item%") && itemStack != null) {
+                hologram.appendItemLine(itemStack);
+            } else {
+                hologram.appendTextLine(Methods.color(line));
+            }
         }
         holograms.put(block, hologram);
     }

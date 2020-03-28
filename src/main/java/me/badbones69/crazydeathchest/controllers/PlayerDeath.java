@@ -1,7 +1,10 @@
 package me.badbones69.crazydeathchest.controllers;
 
+import me.badbones69.crazydeathchest.Methods;
 import me.badbones69.crazydeathchest.api.DeathChest;
+import me.badbones69.crazydeathchest.api.enums.Messages;
 import me.badbones69.crazydeathchest.api.events.DeathChestSpawnEvent;
+import me.badbones69.crazydeathchest.api.interfaces.HologramController;
 import me.badbones69.crazydeathchest.api.objects.DeathChestLocation;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
@@ -9,9 +12,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class PlayerDeath implements Listener {
@@ -32,6 +37,25 @@ public class PlayerDeath implements Listener {
                 deathChest.addDeathChestLocation(chestLocation);
                 block.setType(deathChest.getChestType().getMaterial());
                 e.getDrops().clear();
+                if (deathChest.useHologram()) {
+                    HologramController hologram = deathChest.getHologramController();
+                    HashMap<String, String> placeholders = new HashMap<>();
+                    ItemStack weapon = null;
+                    if (player.getKiller() != null) {
+                        weapon = Methods.getItemInHand(player.getKiller());
+                        placeholders.put("%Killer%", player.getKiller().getName());
+                        placeholders.put("%Item_Name%", weapon.hasItemMeta() ? weapon.getItemMeta().getDisplayName() : weapon.getType().name());
+                        placeholders.put("%Item_Type%", weapon.getType().name());
+                    } else {
+                        if (player.getLastDamageCause() instanceof EntityDamageByEntityEvent) {
+                            placeholders.put("%Killer%", ((EntityDamageByEntityEvent) player.getLastDamageCause()).getDamager().getName());
+                        }
+                        placeholders.put("%Item_Name%", "None");
+                        placeholders.put("%Item_Type%", "None");
+                    }
+                    placeholders.put("%Player%", player.getName());
+                    hologram.createHologram(block, Messages.replacePlaceholders(placeholders, deathChest.getHologramMessage()), weapon);
+                }
             }
         }
     }

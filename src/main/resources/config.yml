@@ -4,6 +4,19 @@ Settings:
   Chest-Settings:
     #The type of block that the chest will be.
     Block: 'CHEST'
+    Holograms:
+      #Toggle if the chests have holograms above them.
+      Enabled: true
+      #How high the hologram is above the chest.
+      Height: 3.5
+      #The message displayed above the chest.
+      #Placeholders: %player% %killer% %item% %item_name% %item_type%
+      Message:
+        - '&6%player% &7was &nkilled by &6&l%killer%'
+        - '&7Was killed with %item_type%'
+        - ''
+        - '%item_name%'
+        - '%item%'
     Permissions:
       #Toggle if the permission 'crazydeathchest.bypass' will stop chests from spawning for players with the permission. PS: this includes OPs as they have all permissions.
       Bypass-Permission: true

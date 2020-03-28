@@ -31,6 +31,9 @@ public class DeathChest {
     private HologramController hologramController;
     private List<DeathChestLocation> chestLocations = new ArrayList<>();
     private ItemBuilder chestType;
+    private boolean useHologram;
+    private double hologramHeight;
+    private List<String> hologramMessage;
     private boolean useChestBypass;
     private boolean useClaimPermission;
     private boolean dropItems;
@@ -71,6 +74,9 @@ public class DeathChest {
         FileConfiguration config = Files.CONFIG.getFile();
         String settings = "Settings.";
         chestType = new ItemBuilder().setMaterial(config.getString(settings + "Chest-Settings.Block"));
+        useHologram = config.getBoolean(settings + "Chest-Settings.Holograms.Enabled");
+        hologramHeight = config.getDouble(settings + "Chest-Settings.Holograms.Height");
+        hologramMessage = config.getStringList(settings + "Chest-Settings.Holograms.Message");
         useChestBypass = config.getBoolean(settings + "Chest-Settings.Permissions.Bypass-Permission");
         useClaimPermission = config.getBoolean(settings + "Chest-Settings.Permissions.Claim-Permission");
         dropItems = config.getBoolean(settings + "Chest-Settings.Drop-Items");
@@ -104,6 +110,18 @@ public class DeathChest {
     
     public ItemBuilder getChestType() {
         return chestType;
+    }
+    
+    public boolean useHologram() {
+        return useHologram;
+    }
+    
+    public double getHologramHeight() {
+        return hologramHeight;
+    }
+    
+    public List<String> getHologramMessage() {
+        return hologramMessage;
     }
     
     public boolean useChestBypass() {
@@ -149,6 +167,7 @@ public class DeathChest {
         DeathChestLocation chestLocation = getDeathChestLocation(block);
         if (chestLocation != null) {
             chestLocations.remove(chestLocation);
+            hologramController.removeHologram(chestLocation.getChestBlock());
         }
     }
     

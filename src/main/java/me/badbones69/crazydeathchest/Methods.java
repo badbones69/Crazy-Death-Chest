@@ -2,6 +2,7 @@ package me.badbones69.crazydeathchest;
 
 import me.badbones69.crazydeathchest.api.DeathChest;
 import me.badbones69.crazydeathchest.api.enums.Messages;
+import me.badbones69.crazydeathchest.api.enums.Version;
 import me.badbones69.crazydeathchest.api.objects.FileManager.Files;
 import me.badbones69.crazydeathchest.controllers.FireworkDamageAPI;
 import org.bukkit.*;
@@ -9,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 import java.util.List;
@@ -66,6 +68,15 @@ public class Methods {
     
     public static boolean isInventoryFull(Player player) {
         return player.getInventory().firstEmpty() == -1;
+    }
+    
+    @SuppressWarnings({"deprecation", "squid:CallToDeprecatedMethod"})
+    public static ItemStack getItemInHand(Player player) {
+        if (Version.isNewer(Version.v1_8_R3)) {
+            return player.getInventory().getItemInMainHand();
+        } else {
+            return player.getItemInHand();
+        }
     }
     
     public static Entity fireWork(Location location, List<Color> colors) {
