@@ -11,15 +11,13 @@ import java.util.UUID;
 public class DeathChestLocation {
     
     private UUID ownerUUID;
-    private Block chestLocation;
+    private Block chestBlock;
     private List<ItemStack> droppedItems;
-    private ItemBuilder blockType;
     
-    public DeathChestLocation(UUID ownerUUID, Block chestLocation, List<ItemStack> droppedItems, ItemBuilder blockType) {
+    public DeathChestLocation(UUID ownerUUID, Block chestBlock, List<ItemStack> droppedItems) {
         this.ownerUUID = ownerUUID;
-        this.chestLocation = chestLocation;
+        this.chestBlock = chestBlock;
         this.droppedItems = droppedItems;
-        this.blockType = blockType;
     }
     
     public UUID getOwnerUUID() {
@@ -30,16 +28,12 @@ public class DeathChestLocation {
         return Bukkit.getOfflinePlayer(ownerUUID);
     }
     
-    public Block getChestLocation() {
-        return chestLocation;
+    public Block getChestBlock() {
+        return chestBlock;
     }
     
     public List<ItemStack> getDroppedItems() {
         return droppedItems;
-    }
-    
-    public ItemBuilder getBlockType() {
-        return blockType;
     }
     
 }
