@@ -24,7 +24,7 @@ public class InventoryClose implements Listener {
             if (e.getView().getTitle().equals(deathChest.getDropInventoryName())) {
                 if (deathChest.isDropUnclaimedItems()) {
                     DeathChestLocation chestLocation = manager.getDeathDropLocation(player);
-                    Arrays.asList(inventory.getContents()).forEach(drop -> player.getWorld().dropItemNaturally(chestLocation.getChestBlock().getLocation(), drop));
+                    Arrays.asList(inventory.getContents()).forEach(drop -> player.getWorld().dropItemNaturally(chestLocation.getChestBlock().getLocation().add(.5, 0, .5), drop));
                 }
                 inventory.clear();
             }

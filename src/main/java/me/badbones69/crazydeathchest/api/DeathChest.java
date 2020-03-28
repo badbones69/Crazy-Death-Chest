@@ -24,7 +24,7 @@ import java.util.UUID;
 public class DeathChest {
     
     private static DeathChest instance = new DeathChest();
-    private Plugin plugin = Bukkit.getPluginManager().getPlugin("CrazyDeathChest");
+    private Plugin plugin;
     /**
      * The hologram api that is being hooked into.
      */
@@ -47,6 +47,7 @@ public class DeathChest {
     }
     
     public void load() {
+        plugin = Bukkit.getPluginManager().getPlugin("CrazyDeathChest");
         Support.updatePluginStates();
         chestLocations.clear();
         fireworkColors.clear();
@@ -181,7 +182,7 @@ public class DeathChest {
     
     public DeathChestLocation getDeathChestLocation(Block block) {
         for (DeathChestLocation location : chestLocations) {
-            if (location.getChestBlock() == block) {
+            if (block.equals(location.getChestBlock())) {
                 return location;
             }
         }

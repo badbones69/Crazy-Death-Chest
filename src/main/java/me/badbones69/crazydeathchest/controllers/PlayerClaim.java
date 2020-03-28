@@ -35,10 +35,10 @@ public class PlayerClaim implements Listener {
                         List<ItemStack> drops = chestLocation.getDroppedItems();
                         block.setType(Material.AIR);
                         if (deathChest.isClaimFirework()) {
-                            Methods.fireWork(block.getLocation(), deathChest.getFireworkColors());
+                            Methods.fireWork(block.getLocation().add(.5, 0, .5), deathChest.getFireworkColors());
                         }
                         if (deathChest.isDropItems()) {
-                            drops.forEach(drop -> block.getWorld().dropItemNaturally(block.getLocation(), drop));
+                            drops.forEach(drop -> block.getWorld().dropItemNaturally(block.getLocation().add(.5, 0, .5), drop));
                         } else {
                             Inventory inventory = Bukkit.createInventory(null, 54, deathChest.getDropInventoryName());
                             drops.forEach(inventory :: addItem);

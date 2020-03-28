@@ -94,9 +94,10 @@ public enum Messages {
         List<String> newMessageList = new ArrayList<>();
         for (String message : messageList) {
             for (String placeholder : placeholders.keySet()) {
-                newMessageList.add(message.replaceAll(placeholder, placeholders.get(placeholder))
-                .replaceAll(placeholder.toLowerCase(), placeholders.get(placeholder)));
+                message = message.replaceAll(placeholder, placeholders.get(placeholder))
+                .replaceAll(placeholder.toLowerCase(), placeholders.get(placeholder));
             }
+            newMessageList.add(message);
         }
         return newMessageList;
     }

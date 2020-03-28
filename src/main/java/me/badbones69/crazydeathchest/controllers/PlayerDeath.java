@@ -7,6 +7,7 @@ import me.badbones69.crazydeathchest.api.events.DeathChestSpawnEvent;
 import me.badbones69.crazydeathchest.api.interfaces.HologramController;
 import me.badbones69.crazydeathchest.api.objects.DeathChestLocation;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,6 +17,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,9 +28,9 @@ public class PlayerDeath implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(PlayerDeathEvent e) {
         Player player = e.getEntity();
-        List<ItemStack> drops = e.getDrops();
+        List<ItemStack> drops = new ArrayList<>(e.getDrops());
         //Player doesn't bypass and does drop items.
-        if (!(ignorePlayer(player) && drops.isEmpty())) {
+        if (!hasBypass(player) && !drops.isEmpty()) {
             Block block = player.getLocation().getBlock();
             DeathChestLocation chestLocation = new DeathChestLocation(player.getUniqueId(), block, drops);
             DeathChestSpawnEvent event = new DeathChestSpawnEvent(player, chestLocation);
@@ -43,9 +45,15 @@ public class PlayerDeath implements Listener {
                     ItemStack weapon = null;
                     if (player.getKiller() != null) {
                         weapon = Methods.getItemInHand(player.getKiller());
-                        placeholders.put("%Killer%", player.getKiller().getName());
-                        placeholders.put("%Item_Name%", weapon.hasItemMeta() ? weapon.getItemMeta().getDisplayName() : weapon.getType().name());
-                        placeholders.put("%Item_Type%", weapon.getType().name());
+                        if (weapon == null || weapon.getType() == Material.AIR) {
+                            placeholders.put("%Killer%", player.getKiller().getName());
+                            placeholders.put("%Item_Name%", "Hand");
+                            placeholders.put("%Item_Type%", "Hand");
+                        } else {
+                            placeholders.put("%Killer%", player.getKiller().getName());
+                            placeholders.put("%Item_Name%", weapon.hasItemMeta() && weapon.getItemMeta().hasDisplayName() ? weapon.getItemMeta().getDisplayName() : weapon.getType().name());
+                            placeholders.put("%Item_Type%", weapon.getType().name());
+                        }
                     } else {
                         if (player.getLastDamageCause() instanceof EntityDamageByEntityEvent) {
                             placeholders.put("%Killer%", ((EntityDamageByEntityEvent) player.getLastDamageCause()).getDamager().getName());
@@ -54,13 +62,17 @@ public class PlayerDeath implements Listener {
                         placeholders.put("%Item_Type%", "None");
                     }
                     placeholders.put("%Player%", player.getName());
+                    if (weapon.getType() == Material.AIR) {
+                        weapon = null;
+                        placeholders.put("%Item%", "Hand");
+                    }
                     hologram.createHologram(block, Messages.replacePlaceholders(placeholders, deathChest.getHologramMessage()), weapon);
                 }
             }
         }
     }
     
-    private boolean ignorePlayer(Player player) {
+    private boolean hasBypass(Player player) {
         return deathChest.useChestBypass() && player.hasPermission("crazydeathchest.bypass");
     }
     

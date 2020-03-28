@@ -26,7 +26,7 @@ public class HologramsSupport implements HologramController {
     }
     
     public void createHologram(Block block, List<String> message, ItemStack itemStack) {
-        double hight = deathChest.getHologramHeight() - .5;//Doing this as Holograms seems to add .5 height when adding lines or something..
+        double hight = deathChest.getHologramHeight() - .5;//Doing this as Holograms seems to add .5 height when adding lines or something.
         Hologram hologram = new Hologram(new Random().nextInt() + "", block.getLocation().add(.5, hight, .5));
         for (String line : message) {
             if (line.toLowerCase().contains("%item%") && itemStack != null) {
